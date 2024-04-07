@@ -1,0 +1,177 @@
+:root {
+  --root-clr: dimgray;
+  --tile-line-height: 30px;
+  --tile-size: 10px;
+  --clr: gray;
+  --pl-clr: 
+    radial-gradient(circle at 75% 50%, white 1px, transparent 2px),
+    radial-gradient(circle at 25% 50%, white 1px, transparent 2px),
+    radial-gradient(circle at 75% 40%, black 3px, transparent 4px),
+    radial-gradient(circle at 25% 40%, black 3px, transparent 4px),
+    white;
+}
+html,
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  background: #111;  
+}
+
+#game_console {
+  width: 100%;
+  max-width: 1000px;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.65), rgba(0,0,0,1)),    
+    var(--root-clr);  
+  text-align: center;
+  line-height: var(--tile-line-height);
+  font-size: 0;
+  color: transparent;
+  user-select: none;
+  box-shadow: 
+    0 20px 20px black;
+/*   overflow: hidden; */
+}
+
+#game_alert {
+  padding: 1rem 2rem;
+  font-size: 16px; 
+  font-family: system-ui, serif;
+  line-height: 100%;
+  color: white;
+  background: rgba(0,0,0,.75);
+  border: 1px dashed white;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%,125%);
+  z-index: 99999;
+  border-radius: 50px;
+  transition: .5s;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+h2 {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.tile {
+/*   outline: 1px dashed rgba(0,0,0,.5); */
+}
+
+.ground {
+  background: var(--root-clr);
+  box-sizing: border-box;
+  border-top: 5px solid rgba(0,0,0,.25);
+  border-right: 5px solid rgba(0,0,0,.65);
+  border-bottom: 5px solid rgba(0,0,0,.65);
+  border-left: 5px solid rgba(0,0,0,.25);
+  outline: 0;
+/*   filter: brightness(.75); */
+}
+
+.innerwall {
+  background: var(--root-clr);
+  outline: 0;
+}
+
+/* lava spikes */
+.lava {
+  background:
+    conic-gradient(at 50% 0%, transparent 0deg 153deg, rgba(0,0,0,.5) 155deg 190deg, rgba(255,255,255,.5) 192deg 205deg, transparent 207deg 360deg),
+    conic-gradient(at 50% 0%, transparent 0deg 153deg, var(--root-clr) 155deg 195deg, var(--root-clr) 197deg 205deg, transparent 207deg 360deg);
+}
+.spleft {
+  transform: rotate(-90deg);
+}
+.sptop {
+  transform: rotate(180deg);
+}
+.spright {
+  transform: rotate(90deg);
+}
+
+.updown {
+  animation: updown 5s linear infinite;
+}
+@keyframes updown {
+  25% { transform: translateY(100%); }
+  75% { transform: translateY(-100%); }
+}
+.leftright {
+  animation: leftright 5s linear infinite;
+}
+@keyframes leftright {
+  25% { transform: translateX(100%); }
+  75% { transform: translateX(-100%); }
+}
+
+.nextlevel {
+/*   background:
+    linear-gradient(to bottom right, transparent 10%, var(--root-clr) 10% 30%, transparent 30% 60%, var(--root-clr) 60% 80%, transparent 80%);
+  background-size: 25px 25px; */
+}
+
+#player,
+#player:after {
+  content:'';
+  width: 25px;
+  height: 25px;
+  background: transparent;
+  position: absolute;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+#player:after {
+  background: var(--pl-clr);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  border-radius: 5px;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 90% 80%, 90% 100%, 80% 100%, 80% 80%, 20% 80%, 20% 100%, 10% 100%, 10% 80%, 0% 80%);
+  pointer-events: none;
+  transform-origin: 50% 100%;
+
+}
+
+.goleft:after {
+  transform: skewX(10deg);
+  animation: moving .25s linear infinite;
+}
+.goright:after {
+  transform: skewX(-10deg);  
+  animation: moving .25s linear infinite;
+}
+@keyframes moving {
+  50% {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 80% 80%, 80% 100%, 70% 100%, 70% 80%, 30% 80%, 30% 100%, 20% 100%, 20% 80%, 0% 80%)
+  }
+}
+
+.trailBall {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 5px;
+  opacity: .75;
+  pointer-events: none;
+  animation: trail 1s linear forwards;
+}
+@keyframes trail {
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
